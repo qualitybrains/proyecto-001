@@ -6,11 +6,13 @@ async function main() {
   await prisma.uSERS.createMany({
     data: [{
       full_name: 'Alice',
-      email: 'alice@prisma.io'
+      email: 'alice@prisma.io',
+      password: 'SimplePassword123'
       },
       {
         full_name: 'Bob',
-        email: 'bob@prisma.io'
+        email: 'bob@prisma.io',
+        password: 'SimplePassword123'
       }]
     })
 }
