@@ -4,3 +4,11 @@
 
 
 ### Configuración inicial
+
+
+1. Instalar Node JS
+3. Clonar el repositorio
+4. Hacer cd a la carpeta entrenador-habitos
+5. npm install
+6. Ejecutar contenedor de Postgres en docker
+7. configurar archivo .env para las variables de entorno
