@@ -1,8 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 
 export default function Home() {
   const alerta = () => alert("Hola QB!")
@@ -23,7 +22,7 @@ export default function Home() {
             </div>
           </CardContent>
           <CardFooter className="gap-x-5">
-            <Button onClick={alerta}>Login</Button> <Button variant="outline">Registrarse</Button>
+            <Button onClick={alerta}>Login</Button> <Button variant="outline"><a href="/signup">Registrarse</a></Button>
           </CardFooter>
         </Card>
         </div>
