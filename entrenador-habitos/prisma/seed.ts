@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { db } from "@/lib/db"
 
 async function main() {
-  await prisma.uSERS.createMany({
+  await db.uSERS.createMany({
     data: [{
       full_name: 'Alice',
       email: 'alice@prisma.io',
@@ -19,4 +17,4 @@ async function main() {
 
 main()
   .catch((e) => console.error(e))
-  .finally(async () => await prisma.$disconnect())
+  .finally(async () => await db.$disconnect())

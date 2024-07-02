@@ -1,28 +1,32 @@
+"use client"
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from "@/components/ui/input";
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
-import zod from "zod"
 import { userSchema } from './userSchema'
 import { z } from "zod"
+import axios from "axios"
 
-interface Props { hasBackButton: boolean }
-
-function SignUpForm({ hasBackButton }: Props) {
+function SignUpForm() {
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema), 
     defaultValues: {fullName: "", email: "", password: ""}
   })
 
-  const submitHandler = (values: zod.infer<typeof userSchema>) => {
-    console.log(values)
+  const submitHandler = async (values: z.infer<typeof userSchema>) => {
+    const response = await axios.post("http://localhost:3000/api/auth/register", values);
+    if(response.status === 200) {
+      alert("Registrado exitosamente")
+    }
+    if(response.status > 400) {
+      alert("Error al registrar")
+    }
   }
   return (
-    <>
     <Form {...form}>
-      <form className="space-y-8">
+      <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-4">
         <FormField
             control={form.control}
             name="fullName"
@@ -68,11 +72,12 @@ function SignUpForm({ hasBackButton }: Props) {
             </FormItem>
           )}
         />
-        <Button onSubmit={form.handleSubmit(submitHandler)} type="submit">Registrarse</Button>
-        {hasBackButton && <Button type="button" variant="outline"><a href="/">Volver</a></Button>}
+        <div className='space-x-4'>
+          <Button type="submit">Registrarse</Button>
+          <Button type="button" variant="outline"><a href="/">Volver</a></Button>
+        </div>
       </form>
     </Form>
-    </>
   )
 }
 
