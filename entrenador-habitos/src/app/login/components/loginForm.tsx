@@ -5,17 +5,16 @@ import axios from 'axios'
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { signIn } from 'next-auth/react'
 
 function LoginForm() {
     const form = useForm()
     const submitHandler = async (values: any) => {
-      const response = await axios.post("http://localhost:3000/api/auth/login", values);
-      if(response.status === 200) {
-        alert("Iniciado exitosamente")
-      }
-      if(response.status > 400) {
-        alert("Error al iniciar")
-      }
+      const response = await signIn("credentials", {
+        email: values.email,
+        password: values.password,
+      });
+      console.log(response)
     }
   return (
     <Form {...form}>
