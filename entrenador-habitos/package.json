@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "db:seed": "ts-node prisma/seed.ts",
     "vercel-build": "prisma generate && prisma migrate deploy && npx ts-node prisma/seed.ts && next build",
     "build": "next build",
     "start": "next start",
@@ -15,6 +16,7 @@
     "@prisma/client": "^5.15.1",
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
+    "@types/axios": "^0.14.0",
     "axios": "^1.7.2",
     "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",

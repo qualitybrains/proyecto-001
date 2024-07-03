@@ -8,8 +8,10 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { userSchema } from './userSchema'
 import { z } from "zod"
 import axios from "axios"
+import { useRouter } from 'next/navigation'
 
 function SignUpForm() {
+  const router = useRouter()
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema), 
     defaultValues: {fullName: "", email: "", password: ""}
@@ -18,7 +20,7 @@ function SignUpForm() {
   const submitHandler = async (values: z.infer<typeof userSchema>) => {
     const response = await axios.post("http://localhost:3000/api/auth/register", values);
     if(response.status === 200) {
-      alert("Registrado exitosamente")
+      router.push("/login")
     }
     if(response.status > 400) {
       alert("Error al registrar")

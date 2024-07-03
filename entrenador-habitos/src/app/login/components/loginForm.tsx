@@ -1,20 +1,25 @@
 "use client"
 import { Button } from '@/components/ui/button'
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from '@/components/ui/form'
-import axios from 'axios'
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
+import { PasswordInput } from '@/components/ui/password-input'
 
 function LoginForm() {
     const form = useForm()
+    const router = useRouter()
     const submitHandler = async (values: any) => {
       const response = await signIn("credentials", {
         email: values.email,
         password: values.password,
       });
       console.log(response)
+      if (response?.status === 200) {
+        router.push("/");
+      }
     }
   return (
     <Form {...form}>
@@ -26,7 +31,7 @@ function LoginForm() {
             <FormItem>
               <FormLabel>Correo *</FormLabel>
               <FormControl>
-                <Input placeholder="example@email.com" {...field} />
+                <Input placeholder="example@email.com" {...field} required={true} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -39,7 +44,7 @@ function LoginForm() {
             <FormItem>
               <FormLabel>Contraseña *</FormLabel>
               <FormControl>
-                <Input placeholder="Introduce tu contraseña" {...field} />
+                <PasswordInput {...field} required={true} />
               </FormControl>
               <FormMessage />
             </FormItem>
