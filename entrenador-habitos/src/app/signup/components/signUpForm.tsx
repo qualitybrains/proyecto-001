@@ -9,6 +9,7 @@ import { userSchema } from './userSchema'
 import { z } from "zod"
 import axios from "axios"
 import { useRouter } from 'next/navigation'
+import { PasswordInput } from '@/components/ui/password-input';
 
 function SignUpForm() {
   const router = useRouter()
@@ -65,7 +66,7 @@ function SignUpForm() {
             <FormItem>
               <FormLabel>Contraseña *</FormLabel>
               <FormControl>
-                <Input placeholder="Introduce tu contraseña" {...field} />
+                <PasswordInput placeholder="Introduce tu contraseña" {...field} />
               </FormControl>
               <FormDescription>
                 Debe poseer mínimo 8 caracteres y al menos un número.

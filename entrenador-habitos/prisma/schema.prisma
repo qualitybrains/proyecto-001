@@ -14,10 +14,69 @@ datasource db {
 }
 
 model USERS {
-  id    Int     @default(sequence()) @id
-  email String  @unique
-  full_name  String?
-  password String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id              Int               @id @default(sequence())
+  email           String            @unique
+  full_name       String?
+  password        String
+  points          Int               @default(0)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @default(now()) @updatedAt
+  user_to_tasks   user_to_tasks[]
+  user_to_rewards user_to_rewards[]
+}
+
+model Tasks {
+  id            Int             @id @default(sequence())
+  name          String          @unique
+  description   String?
+  points        Int
+  user_to_tasks user_to_tasks[]
+  task_status   task_status[]
+}
+
+model Rewards {
+  id              Int               @id @default(sequence())
+  name            String            @unique
+  description     String?
+  cost            Int
+  user_to_rewards user_to_rewards[]
+}
+
+model Achievements {
+  id          Int     @id @default(sequence())
+  name        String  @unique
+  description String?
+}
+
+model Task_Status {
+  id          Int           @id @default(sequence())
+  status      String
+  task_status task_status[]
+}
+
+model user_to_tasks {
+  user    USERS? @relation(fields: [user_id], references: [id])
+  user_id Int
+  task    Tasks? @relation(fields: [task_id], references: [id])
+  task_id Int
+
+  @@id([user_id, task_id])
+}
+
+model user_to_rewards {
+  user      USERS?   @relation(fields: [user_id], references: [id])
+  user_id   Int
+  reward    Rewards? @relation(fields: [reward_id], references: [id])
+  reward_id Int
+
+  @@id([user_id, reward_id])
+}
+
+model task_status {
+  task      Tasks?       @relation(fields: [task_id], references: [id])
+  task_id   Int
+  status    Task_Status? @relation(fields: [status_id], references: [id])
+  status_id Int
+
+  @@id([task_id, status_id])
 }
