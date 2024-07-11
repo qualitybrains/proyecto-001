@@ -19,7 +19,7 @@ function TaskCard({title, description, status, points}: TaskCardProps) {
             <CardContent>
                 <label>{description}</label>
             </CardContent>
-            <CardFooter className="gap-x-5">
+            <CardFooter>
               <h1 className="text-3xl font-bold">{points} pts.</h1>
             </CardFooter>
         </Card>
