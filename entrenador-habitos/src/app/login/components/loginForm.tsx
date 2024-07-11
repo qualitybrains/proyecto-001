@@ -13,13 +13,14 @@ function LoginForm() {
     const router = useRouter()
     const submitHandler = async (values: any) => {
       const response = await signIn("credentials", {
+        redirect: false,
         email: values.email,
-        password: values.password,
+        password: values.password
       });
-      console.log(response)
       if (response?.status === 200) {
         router.push("/");
       }
+      else( form.setError("email", { message: "Credenciales incorrectas" }))
     }
   return (
     <Form {...form}>
