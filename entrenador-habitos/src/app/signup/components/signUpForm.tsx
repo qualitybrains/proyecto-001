@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { userSchema } from './userSchema'
 import { z } from "zod"
-import axios from "axios"
 import { useRouter } from 'next/navigation'
 import { PasswordInput } from '@/components/ui/password-input';
 
@@ -19,12 +18,18 @@ function SignUpForm() {
   })
 
   const submitHandler = async (values: z.infer<typeof userSchema>) => {
-    const response = await axios.post("http://localhost:3000/api/auth/register", values);
+    const response = await fetch("/api/auth/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    });
     if(response.status === 200) {
       router.push("/login")
     }
     if(response.status > 400) {
-      alert("Error al registrar")
+      form.setError("email", { message: `${response.statusText}` })
     }
   }
   return (
@@ -77,7 +82,7 @@ function SignUpForm() {
         />
         <div className='space-x-4'>
           <Button type="submit">Registrarse</Button>
-          <Button type="button" variant="outline"><a href="/">Volver</a></Button>
+          <Button onClick={() => router.push("/login")} type="button" variant="outline">Volver</Button>
         </div>
       </form>
     </Form>
