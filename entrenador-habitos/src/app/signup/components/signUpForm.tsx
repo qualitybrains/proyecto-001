@@ -28,7 +28,7 @@ function SignUpForm() {
     if(response.status === 200) {
       router.push("/login")
     }
-    if(response.status > 400) {
+    if(response.status >= 400) {
       form.setError("email", { message: `${response.statusText}` })
     }
   }
