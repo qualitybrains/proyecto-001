@@ -28,8 +28,11 @@ function SignUpForm() {
     if(response.status === 200) {
       router.push("/login")
     }
-    if(response.status >= 400) {
-      form.setError("email", { message: `${response.statusText}` })
+    if(response.status === 400) {
+      form.setError("email", { message: 'Email ya registrado' })
+    }
+    if(response.status === 500) {
+      form.setError("email", { message: 'Ha ocurrido un error inesperado al registrar' })
     }
   }
   return (
