@@ -27,7 +27,7 @@ export const authOptions = {
                     },
                 });
                 if (!user) {
-                    throw new Error("User doesn't exist");
+                    throw new Error("El usuario no existe");
                 }
                 const isCorrectPassword = await bcrypt.compare(
                     credentials.password,

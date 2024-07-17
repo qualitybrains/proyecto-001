@@ -5,23 +5,28 @@ import { Input } from '@/components/ui/input'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { signIn } from 'next-auth/react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from "zod"
+import { userSchema } from '@/app/signup/components/userSchema'
 import { useRouter } from 'next/navigation'
 import { PasswordInput } from '@/components/ui/password-input'
 
 function LoginForm() {
-    const form = useForm()
+
+    const form = useForm<z.infer<typeof userSchema>>({defaultValues: {email: "", password: ""}})
     const router = useRouter()
-    const submitHandler = async (values: any) => {
+    const submitHandler = async (values: z.infer<typeof userSchema>) => {
       const response = await signIn("credentials", {
         redirect: false,
         email: values.email,
         password: values.password
       });
-      if (response?.status === 200) {
+      if (response?.ok) {
         router.push("/");
       }
-      else( form.setError("email", { message: "Credenciales incorrectas" }))
+      if (response?.error) form.setError("email", { message: `${response.error}` })
     }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(submitHandler)} className="space-y-4">
@@ -53,7 +58,7 @@ function LoginForm() {
         />
         <div className='space-x-4'>
           <Button type="submit">Iniciar sesión</Button>
-          <Button type="button" variant="outline"><a href="/signup">Registrarse</a></Button>
+          <Button onClick={ () => router.push("/signup")} type="button" variant="outline">Registrarse</Button>
         </div>
       </form>
     </Form>
