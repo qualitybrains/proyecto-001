@@ -34,6 +34,9 @@ export async function POST(request: Request) {
     }
     const data = await request.json();
     const newTask = await createTask(session.user.email, data);
+    if (!newTask) {
+        return new Response(JSON.stringify({ message: "Failed to create task" }))
+    }
     return new Response(JSON.stringify(newTask), {
         status: 200,
         headers: {

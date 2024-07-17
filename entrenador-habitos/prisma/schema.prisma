@@ -31,7 +31,8 @@ model Tasks {
   description   String?
   points        Int
   user_to_tasks user_to_tasks[]
-  task_status   task_status[]
+  status        Task_Status? @relation(fields: [status_id], references: [id], onDelete: Cascade)
+  status_id     Int
 }
 
 model Rewards {
@@ -51,7 +52,7 @@ model Achievements {
 model Task_Status {
   id          Int           @id @default(sequence())
   status      String
-  task_status task_status[]
+  tasks       Tasks[]
 }
 
 model user_to_tasks {
@@ -70,13 +71,4 @@ model user_to_rewards {
   reward_id Int
 
   @@id([user_id, reward_id])
-}
-
-model task_status {
-  task      Tasks?       @relation(fields: [task_id], references: [id])
-  task_id   Int
-  status    Task_Status? @relation(fields: [status_id], references: [id])
-  status_id Int
-
-  @@id([task_id, status_id])
 }

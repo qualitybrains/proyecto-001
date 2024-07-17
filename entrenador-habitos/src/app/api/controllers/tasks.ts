@@ -1,5 +1,6 @@
-import { Task, User } from "@/app/types/task";
+import { taskSchema } from "@/app/dashboard/components/taskSchema";
 import { db } from "@/lib/db"
+import { z } from "zod";
 
 export const getAllUserTasks = async (userEmail: string) => {
     const user = await db.uSERS.findUnique({
@@ -10,7 +11,7 @@ export const getAllUserTasks = async (userEmail: string) => {
     if (!user) {
         return null
     }
-    const userTasks = await db.user_to_tasks.findMany({ where: { user_id: user.id } })
+    const userTasks = await db.user_to_tasks.findMany({ select: { task: true }, where: { user_id: user.id } })
     return userTasks;
 }
 
@@ -23,9 +24,14 @@ export const getTaskById = async (id: string) => {
     return task
 }
 
-export const createTask = async (userEmail: string, data: Task) => {
+export const createTask = async (userEmail: string, data: z.infer<typeof taskSchema>) => {
     const newTask = await db.tasks.create({
-        data
+        data: {
+            name: data.name,
+            description: data.description,
+            points: Number(data.points),
+            status_id: 1
+        }
     })
     const user = await db.uSERS.findUnique({
         where: {
@@ -43,5 +49,14 @@ export const createTask = async (userEmail: string, data: Task) => {
             task_id: newTask.id
         }
     })
-    return newTask
+    return newUserToTask
+}
+
+export const deleteTask = async (id: string) => {
+    const task = await db.tasks.delete({
+        where: {
+            id: Number(id),
+        }
+    })
+    return task
 }

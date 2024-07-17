@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import SignUpForm from "./components/signUpForm";
 
 export default function SignUp() {

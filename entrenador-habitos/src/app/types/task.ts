@@ -5,6 +5,10 @@ export type Task = {
     points: number
 }
 
+export type TaskArray = {
+    task: Task
+}
+
 export type User = {
     id: number
     email: string

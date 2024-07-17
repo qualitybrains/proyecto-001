@@ -4,8 +4,8 @@ import React from 'react'
 
 interface TaskCardProps {
     title: string,
-    description: string,
-    status: string,
+    description: string | undefined,
+    status?: number,
     points: number
 }
 
