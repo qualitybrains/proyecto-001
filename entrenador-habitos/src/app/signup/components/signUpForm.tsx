@@ -1,5 +1,6 @@
 'use client';
 
+import { RegisterUserSchema } from '@/app/types/register';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -10,18 +11,17 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { userSchema } from './userSchema';
 
 function SignUpForm() {
   const router = useRouter();
-  const form = useForm<z.infer<typeof userSchema>>({
-    resolver: zodResolver(userSchema),
+  const form = useForm<z.infer<typeof RegisterUserSchema>>({
+    resolver: zodResolver(RegisterUserSchema),
     defaultValues: { fullName: '', email: '', password: '' },
   });
 
   const { toast } = useToast();
 
-  const submitHandler = async (values: z.infer<typeof userSchema>) => {
+  const submitHandler = async (values: z.infer<typeof RegisterUserSchema>) => {
     const response = await fetch('/api/auth/register', {
       method: 'POST',
       headers: {
