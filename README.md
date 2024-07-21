@@ -11,11 +11,10 @@
 4. Hacer cd a la carpeta entrenador-habitos
 5. npm install
 6 Ejecutar contenedor de Cockroach DB en docker, descarga la imagen de docker y luego ejecuta estos comandos:
+
 a) Para crear el volumen: docker volume create roach-single
 
 b) Para inicializar la instancia local: docker run -d --env COCKROACH_DATABASE=habitosdb --env COCKROACH_USER=postgres --env COCKROACH_PASSWORD=SuperStrong01 --name=roach-single --hostname=roach-single -p 26257:26257 -p 8080:8080 -v "roach-single:/cockroach/cockroach-data" cockroachdb/cockroach start-single-node --http-addr=roach-single:8080 --insecure
-
-
 
 c) Cuando quieras detener la instancia es recomendable ejecutar este comando, evita pérdida de datos: docker stop -t 300 roach-single
    
