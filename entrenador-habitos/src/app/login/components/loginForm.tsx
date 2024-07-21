@@ -1,31 +1,31 @@
-"use client"
-import { Button } from '@/components/ui/button'
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import React from 'react'
-import { useForm } from 'react-hook-form'
-import { signIn } from 'next-auth/react'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from "zod"
-import { userSchema } from '@/app/signup/components/userSchema'
-import { useRouter } from 'next/navigation'
-import { PasswordInput } from '@/components/ui/password-input'
+'use client';
+
+import { userSchema } from '@/app/signup/components/userSchema';
+import { Button } from '@/components/ui/button';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
 function LoginForm() {
-
-    const form = useForm<z.infer<typeof userSchema>>({defaultValues: {email: "", password: ""}})
-    const router = useRouter()
-    const submitHandler = async (values: z.infer<typeof userSchema>) => {
-      const response = await signIn("credentials", {
-        redirect: false,
-        email: values.email,
-        password: values.password
-      });
-      if (response?.ok) {
-        router.push("/");
-      }
-      if (response?.error) form.setError("email", { message: `${response.error}` })
+  const form = useForm<z.infer<typeof userSchema>>({ defaultValues: { email: '', password: '' } });
+  const router = useRouter();
+  const submitHandler = async (values: z.infer<typeof userSchema>) => {
+    const response = await signIn('credentials', {
+      redirect: false,
+      email: values.email,
+      password: values.password,
+    });
+    if (response?.ok) {
+      router.push('/');
     }
+    if (response?.error) form.setError('email', { message: `${response.error}` });
+  };
 
   return (
     <Form {...form}>
@@ -56,13 +56,15 @@ function LoginForm() {
             </FormItem>
           )}
         />
-        <div className='space-x-4'>
+        <div className="space-x-4">
           <Button type="submit">Iniciar sesión</Button>
-          <Button onClick={ () => router.push("/signup")} type="button" variant="outline">Registrarse</Button>
+          <Button onClick={() => router.push('/signup')} type="button" variant="outline">
+            Registrarse
+          </Button>
         </div>
       </form>
     </Form>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;

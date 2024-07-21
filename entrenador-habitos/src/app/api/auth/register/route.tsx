@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
-import bcrypt from "bcrypt";
-import { db } from "@/lib/db";
+import { db } from '@/lib/db';
+import bcrypt from 'bcrypt';
+import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   try {
@@ -15,11 +15,11 @@ export async function POST(request: Request) {
     if (userFound) {
       return NextResponse.json(
         {
-          message: "Email already exists",
+          message: 'Email already exists',
         },
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -38,11 +38,11 @@ export async function POST(request: Request) {
   } catch {
     return NextResponse.json(
       {
-        message: "Internal Server Error",
+        message: 'Internal Server Error',
       },
       {
         status: 500,
-      }
+      },
     );
   }
 }

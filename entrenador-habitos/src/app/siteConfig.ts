@@ -1,6 +1,6 @@
 export const sitePages = {
-    home: "/",
-    login: "/login",
-    signup: "/signup",
-    admin: "/admin"
-}
+  home: '/',
+  login: '/login',
+  signup: '/signup',
+  admin: '/admin',
+};
