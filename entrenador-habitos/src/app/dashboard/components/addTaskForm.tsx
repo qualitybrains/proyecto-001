@@ -23,7 +23,7 @@ function AddTaskForm({ onOpenChange }: Props) {
             },
             body: JSON.stringify(values),
         })
-        onOpenChange(false)
+        response.status === 200 && onOpenChange(false)
     }
     
     return (
