@@ -1,6 +1,6 @@
 'use client';
 
-import { userSchema } from '@/app/signup/components/userSchema';
+import { RegisterUserSchema } from '@/app/types/register';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -13,18 +13,20 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 function LoginForm() {
-  const form = useForm<z.infer<typeof userSchema>>({ defaultValues: { email: '', password: '' } });
+  const form = useForm<z.infer<typeof RegisterUserSchema>>({ defaultValues: { email: '', password: '' } });
   const router = useRouter();
-  const submitHandler = async (values: z.infer<typeof userSchema>) => {
+  const submitHandler = async (values: z.infer<typeof RegisterUserSchema>) => {
     const response = await signIn('credentials', {
       redirect: false,
       email: values.email,
       password: values.password,
     });
-    if (response?.ok) {
-      router.push('/');
+    if (!response?.ok) {
+      const error = response && response.error ? response.error : 'Error al iniciar sesión';
+      form.setError('email', { message: error });
+      return;
     }
-    if (response?.error) form.setError('email', { message: `${response.error}` });
+    router.push('/');
   };
 
   return (
