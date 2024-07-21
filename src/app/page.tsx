@@ -10,7 +10,7 @@ import TasksCarousel from './dashboard/components/tasksCarousel';
 export default function Home() {
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);
   return (
-    <main className="flex min-h-screen max-w-full flex-col items-start px-4">
+    <div className="flex min-h-screen max-w-full flex-col items-start px-4">
       <TopNavBar />
       <section className="mt-6 flex flex-row gap-4 px-10 align-middle">
         <h1 className="text-4xl font-bold">Tareas</h1>
@@ -18,9 +18,9 @@ export default function Home() {
           <AddTaskModal open={showAddTaskForm} onOpenChange={setShowAddTaskForm} />
         </div>
       </section>
-      <div className="mt-10 flex flex-row px-14">
+      <div className="m-auto mt-10 flex w-full flex-row px-14">
         <TasksCarousel />
       </div>
-    </main>
+    </div>
   );
 }
