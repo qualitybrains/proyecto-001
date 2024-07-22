@@ -17,7 +17,7 @@ function TasksCarousel({ t }: Props) {
           if (!task) return null;
           return (
             <CarouselItem key={task.id} className="basis-1/2">
-              <TaskCard title={task.name} description={task.description as string} points={task.points} />
+              <TaskCard taskId= {task.id} title={task.name} description={task.description as string} points={task.points} />
             </CarouselItem>
           );
         })}
