@@ -22,23 +22,27 @@ function SignUpForm() {
   const { toast } = useToast();
 
   const submitHandler = async (values: z.infer<typeof RegisterUserSchema>) => {
-    const response = await fetch('/api/auth/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(values),
-    });
-    if (response.status === 200) {
+    try {
+      // TODO: should have their own file to handle API calls
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      });
+
+      if (!response.ok) {
+        if (response.status === 400) form.setError('email', { message: 'Email ya registrado' });
+        throw new Error('Error al registrar usuario');
+      }
+
       router.push('/login');
-    }
-    if (response.status === 400) {
-      form.setError('email', { message: 'Email ya registrado' });
-    }
-    if (response.status === 500) {
+    } catch (error) {
+      // TODO: Should handle error message in the API
       toast({
-        description: 'Ha ocurrido un error inesperado al registrar',
-        variant: "destructive"
+        description: 'Error al registrar usuario',
+        variant: 'destructive',
       });
     }
   };
@@ -67,7 +71,6 @@ function SignUpForm() {
               <FormControl>
                 <Input placeholder="example@email.com" {...field} />
               </FormControl>
-              <FormDescription>Debes usar un correo electrónico válido.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -81,7 +84,6 @@ function SignUpForm() {
               <FormControl>
                 <PasswordInput placeholder="Introduce tu contraseña" {...field} />
               </FormControl>
-              <FormDescription>Debe poseer mínimo 8 caracteres y al menos un número.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

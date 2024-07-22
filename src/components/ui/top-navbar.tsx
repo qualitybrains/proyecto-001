@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
@@ -12,7 +14,7 @@ import React from 'react';
 
 function TopNavBar() {
   return (
-    <div className="flex h-[2rem] w-full flex-row justify-between bg-slate-50">
+    <div className="flex h-8 w-full flex-row justify-between bg-slate-50">
       <label className="font-semibold">Entrenador de Hábitos</label>
       <NavigationMenu>
         <NavigationMenuList>
