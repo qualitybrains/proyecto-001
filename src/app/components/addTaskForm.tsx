@@ -4,18 +4,18 @@ import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { taskSchema } from './taskSchema';
+import { taskFormSchema } from '../types/task';
 
 interface Props {
   onOpenChange: (open: boolean) => void;
 }
 
 function AddTaskForm({ onOpenChange }: Props) {
-  const form = useForm<z.infer<typeof taskSchema>>({
-    resolver: zodResolver(taskSchema),
+  const form = useForm<z.infer<typeof taskFormSchema>>({
+    resolver: zodResolver(taskFormSchema),
     defaultValues: { name: '', description: '', points: '50', status: 1 },
   });
-  const submitHandler = async (values: z.infer<typeof taskSchema>) => {
+  const submitHandler = async (values: z.infer<typeof taskFormSchema>) => {
     const response = await fetch('/api/tasks', {
       method: 'POST',
       headers: {
