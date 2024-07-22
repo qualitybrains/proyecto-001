@@ -17,7 +17,7 @@ function TasksCarousel({ t }: Props) {
           if (!task) return null;
           return (
             <CarouselItem key={task.id} className="max-w-fit select-none">
-              <TaskCard title={task.name} description={task.description as string} points={task.points} />
+              <TaskCard taskId= {task.id} title={task.name} description={task.description as string} points={task.points} />
             </CarouselItem>
           );
         })}
