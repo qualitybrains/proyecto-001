@@ -1,4 +1,4 @@
-import { taskSchema } from '@/app/dashboard/components/taskSchema';
+import { taskFormSchema } from '@/app/types/task';
 import { db } from '@/lib/db';
 import { z } from 'zod';
 
@@ -24,7 +24,7 @@ export const getTaskById = async (id: string) => {
   return task;
 };
 
-export const createTask = async (userEmail: string, data: z.infer<typeof taskSchema>) => {
+export const createTask = async (userEmail: string, data: z.infer<typeof taskFormSchema>) => {
   const newTask = await db.tasks.create({
     data: {
       name: data.name,

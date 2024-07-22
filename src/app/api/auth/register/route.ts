@@ -12,16 +12,7 @@ export async function POST(request: Request) {
       },
     });
 
-    if (userFound) {
-      return NextResponse.json(
-        {
-          message: 'Email already exists',
-        },
-        {
-          status: 400,
-        },
-      );
-    }
+    if (userFound) return NextResponse.json({ error: 'Email already exists' }, { status: 400 });
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
     const newUser = await db.uSERS.create({
@@ -34,15 +25,9 @@ export async function POST(request: Request) {
 
     const { password: _, ...user } = newUser;
 
-    return NextResponse.json(user);
-  } catch {
-    return NextResponse.json(
-      {
-        message: 'Internal Server Error',
-      },
-      {
-        status: 500,
-      },
-    );
+    return NextResponse.json({ data: user, message: 'User created successfully' });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Internal Server Error';
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
