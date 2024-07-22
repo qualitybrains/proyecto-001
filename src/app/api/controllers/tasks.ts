@@ -52,11 +52,19 @@ export const createTask = async (userEmail: string, data: z.infer<typeof taskSch
   return newUserToTask;
 };
 
-export const deleteTask = async (id: string) => {
-  const task = await db.tasks.delete({
-    where: {
-      id: Number(id),
-    },
-  });
-  return task;
+export const deleteTask = async (taskId: number) => {
+  const task = await db.tasks.update({
+      where: {
+          id: taskId
+      },
+      data: {
+          user_to_tasks: {
+              deleteMany: {}
+          }
+      },
+      include: {
+          user_to_tasks: true
+      }
+  })
+  return task
 };

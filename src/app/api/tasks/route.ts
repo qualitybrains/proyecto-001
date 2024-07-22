@@ -1,6 +1,6 @@
 import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth/next';
-import { createTask, getAllUserTasks } from '../controllers/tasks';
+import { createTask, deleteTask, getAllUserTasks } from '../controllers/tasks';
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -42,5 +42,36 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+}
+
+
+export async function DELETE(request: Request) {
+  const session = await getServerSession(authOptions);
+  // If we don't have a session or user doesn't have email, return unauthorized
+  if (!session || !session.user?.email) {
+      return new Response(JSON.stringify({ message: "Unauthorized" }), {
+          status: 401,
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+  }
+
+  const data = await request.json();
+  if (!data || !data.taskId) {
+      return new Response(JSON.stringify({ message: "Invalid data" }), {
+          status: 400,
+          headers: {
+              "Content-Type": "application/json",
+          },
+      });
+  }
+  const task = await deleteTask(Number(data.taskId));
+  return new Response(JSON.stringify("task " + task.name + " deleted successfully"), {
+      status: 200,
+      headers: {
+          "Content-Type": "application/json",
+      },
   });
 }
