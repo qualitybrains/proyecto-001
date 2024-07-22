@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth/next';
 import { NextRequest, NextResponse } from 'next/server';
 import { deleteTask } from '../../controllers/tasks';
 
-export async function DELETE(request: NextRequest, { params }: { params: { taskId: string } }) {
+export async function DELETE(_request: NextRequest, { params }: { params: { taskId: string } }) {
   try {
     const session = await getServerSession(authOptions);
     // If we don't have a session or user doesn't have email, return unauthorized
