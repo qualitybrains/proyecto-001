@@ -18,25 +18,40 @@ export async function GET() {
   }
 }
 
-export async function POST(request: Request) {
-  const session = await getServerSession(authOptions);
+export async function POST(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
   if (!session || !session.user?.email) {
-    return new Response(JSON.stringify({ message: 'Unauthorized' }), {
-      status: 401,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
+    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
   }
   const data = await request.json();
   const newTask = await createTask(session.user.email, data);
   if (!newTask) {
-    return new Response(JSON.stringify({ message: 'Failed to create task' }));
+    return NextResponse.json({ message: 'Failed to create task' }, { status: 500 });
   }
-  return new Response(JSON.stringify(newTask), {
-    status: 200,
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
+
+  return NextResponse.json({newTask}, { status: 200 });
+  
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Internal Server Error';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+};
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const session = await getServerSession(authOptions);
+    // If we don't have a session or user doesn't have email, return unauthorized
+    if (!session || !session.user?.email) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+
+    const data = await request.json();
+    if (!data || !data.taskId) return NextResponse.json({ message: 'Invalid Data' }, { status: 400 });
+    
+    const task = await deleteTask(Number(data.taskId));
+    return NextResponse.json({ data: task }, { status: 200 });
+  } 
+  catch (error) {
+    const message = error instanceof Error ? error.message : 'Internal Server Error';
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
 }

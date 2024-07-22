@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
@@ -21,11 +20,13 @@ function LoginForm() {
       email: values.email,
       password: values.password,
     });
+
     if (!response?.ok) {
       const error = response && response.error ? response.error : 'Error al iniciar sesión';
       form.setError('email', { message: error });
       return;
     }
+
     router.push('/');
   };
 
