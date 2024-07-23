@@ -4,8 +4,8 @@ import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { getAllUserTasks } from './api/controllers/tasks';
 import { getUserProfile } from './api/controllers/users';
-import AddTaskModal from './components/addTaskModal';
-import TasksCarousel from './components/tasksCarousel';
+import AddTaskModal from './components/AddTaskModal';
+import TasksCarousel from './components/TasksCarousel';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);

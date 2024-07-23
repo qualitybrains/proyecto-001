@@ -44,15 +44,12 @@ export async function POST(request: NextRequest) {
     const data = { name, description, points, isPublic, userId: user.id };
     const newTask = await createTask({ task: data });
     if (!newTask) return NextResponse.json({ message: 'Failed to create task' }, { status: 400 });
-
-    revalidatePath('/');
     return NextResponse.json({ newTask }, { status: 200 });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal Server Error';
     return NextResponse.json({ error: message }, { status: 500 });
   }
 }
-
 export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
@@ -63,7 +60,6 @@ export async function DELETE(request: NextRequest) {
     if (!taskId) return NextResponse.json({ message: 'Invalid Data' }, { status: 400 });
 
     const task = await deleteTask({ taskId: Number(taskId) });
-    revalidatePath('/');
     return NextResponse.json({ data: task }, { status: 200 });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal Server Error';

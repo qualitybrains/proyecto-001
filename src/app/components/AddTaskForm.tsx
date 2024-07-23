@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { clientRevalidatePath } from '@/lib/clientRevalidatePath';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { taskFormSchema } from '../types/task';
@@ -11,6 +13,7 @@ interface Props {
 }
 
 function AddTaskForm({ onOpenChange }: Props) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof taskFormSchema>>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: { name: '', description: '', points: '50', status: 1 },
@@ -23,6 +26,7 @@ function AddTaskForm({ onOpenChange }: Props) {
       },
       body: JSON.stringify(values),
     });
+    clientRevalidatePath('/');
     onOpenChange(false);
   };
 

@@ -2,7 +2,7 @@
 
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { Tasks } from '@prisma/client';
-import TaskCard from './taskCard';
+import TaskCard from './TaskCard';
 
 interface Props {
   tasks: Tasks[];

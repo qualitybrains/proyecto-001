@@ -2,7 +2,7 @@
 
 import { Modal } from '@/components/ui/modal';
 import { useState } from 'react';
-import AddTaskForm from './addTaskForm';
+import AddTaskForm from './AddTaskForm';
 
 function AddTaskModal() {
   const [showAddTaskForm, setShowAddTaskForm] = useState(false);

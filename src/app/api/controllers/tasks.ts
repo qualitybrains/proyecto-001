@@ -1,7 +1,7 @@
-import { taskFormSchema } from '@/app/types/task';
+'use server';
+
 import { db } from '@/lib/db';
 import { Tasks } from '@prisma/client';
-import { z } from 'zod';
 
 export const getAllUserTasks = async ({ userId }: { userId: number }) => {
   const userTasks = await db.tasks.findMany({ where: { userId } });
@@ -26,7 +26,6 @@ export const createTask = async ({ task }: { task: Omit<Tasks, 'id'> }) => {
       userId: task.userId,
     },
   });
-
   return newTask;
 };
 

@@ -1,7 +1,9 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
+import { clientRevalidatePath } from '@/lib/clientRevalidatePath';
 import { TrashIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 interface TaskCardProps {
@@ -14,6 +16,7 @@ interface TaskCardProps {
 
 function TaskCard({ taskId, title, description, status, points }: TaskCardProps) {
   const { toast } = useToast();
+  const router = useRouter();
   const handleDelete = async () => {
     const response = await fetch(`/api/tasks`, {
       method: 'DELETE',
@@ -30,7 +33,8 @@ function TaskCard({ taskId, title, description, status, points }: TaskCardProps)
       });
       return;
     }
-
+    // TODO Find another way to revalidate the data
+    clientRevalidatePath('/');
     toast({
       description: 'Tarea eliminada',
       variant: 'default',
