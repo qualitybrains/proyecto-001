@@ -16,7 +16,7 @@ datasource db {
 model Users {
   id        Int      @id @default(sequence())
   email     String   @unique
-  fullName String?
+  fullName  String?
   password  String
   tasks     Tasks[]
   points    Int      @default(0)
@@ -26,11 +26,11 @@ model Users {
 
 model Tasks {
   id          Int     @id @default(sequence())
-  name        String  @unique
-  description String?
+  name        String
+  description String
   points      Int
   isPublic    Boolean @default(false)
-  userId     Int
+  userId      Int
   user        Users   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 

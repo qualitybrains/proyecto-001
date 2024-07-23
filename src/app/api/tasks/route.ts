@@ -18,7 +18,7 @@ export async function GET() {
       },
     });
 
-    if (!user) return null;
+    if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const tasks = await getAllUserTasks({ userId: user.id });
 
@@ -63,6 +63,7 @@ export async function DELETE(request: NextRequest) {
     if (!taskId) return NextResponse.json({ message: 'Invalid Data' }, { status: 400 });
 
     const task = await deleteTask({ taskId: Number(taskId) });
+    revalidatePath('/');
     return NextResponse.json({ data: task }, { status: 200 });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Internal Server Error';
