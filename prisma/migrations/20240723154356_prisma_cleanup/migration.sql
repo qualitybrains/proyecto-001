@@ -30,21 +30,21 @@ DROP INDEX IF EXISTS "Tasks_name_key";
 
 -- AlterTable
 ALTER TABLE "Tasks" DROP COLUMN IF EXISTS "status_id";
-ALTER TABLE "Tasks" ADD COLUMN "isPublic" BOOL NOT NULL DEFAULT false;
-ALTER TABLE "Tasks" ADD COLUMN "userId" INT4 NOT NULL;
+ALTER TABLE "Tasks" ADD COLUMN IF NOT EXISTS "isPublic" BOOL NOT NULL DEFAULT false;
+ALTER TABLE "Tasks" ADD COLUMN IF NOT EXISTS "userId" INT4 NOT NULL;
 ALTER TABLE "Tasks" ALTER COLUMN "description" SET NOT NULL;
 
 -- DropTable
-DROP TABLE "Task_Status";
+DROP TABLE IF EXISTS "Task_Status";
 
 -- DropTable
-DROP TABLE "USERS";
+DROP TABLE IF EXISTS "USERS";
 
 -- DropTable
-DROP TABLE "user_to_rewards";
+DROP TABLE IF EXISTS "user_to_rewards";
 
 -- DropTable
-DROP TABLE "user_to_tasks";
+DROP TABLE IF EXISTS "user_to_tasks";
 
 -- CreateTable
 CREATE TABLE "Users" (
