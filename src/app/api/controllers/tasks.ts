@@ -31,11 +31,10 @@ export const createTask = async ({ task }: { task: Omit<Tasks, 'id'> }) => {
 };
 
 export const deleteTask = async ({ taskId }: { taskId: number }) => {
-  const task = await db.tasks.update({
+  const task = await db.tasks.delete({
     where: {
       id: taskId,
     },
-    data: {},
   });
   return task;
 };
