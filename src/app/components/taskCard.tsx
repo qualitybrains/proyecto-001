@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { TrashIcon } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { TrashIcon } from 'lucide-react';
 import React from 'react';
 
 interface TaskCardProps {
-  taskId: number,
+  taskId: number;
   title: string;
   description: string | undefined;
   status?: number;
@@ -13,9 +13,8 @@ interface TaskCardProps {
 }
 
 function TaskCard({ taskId, title, description, status, points }: TaskCardProps) {
-  const { toast } = useToast()
+  const { toast } = useToast();
   const handleDelete = async () => {
-
     const response = await fetch(`/api/tasks`, {
       method: 'DELETE',
       headers: {
@@ -28,20 +27,22 @@ function TaskCard({ taskId, title, description, status, points }: TaskCardProps)
       toast({
         description: 'Error al eliminar la tarea',
         variant: 'destructive',
-      })
-      return
+      });
+      return;
     }
 
     toast({
       description: 'Tarea eliminada',
       variant: 'default',
-    })
-  }
+    });
+  };
   return (
     <>
       <Card className="flex w-[300px] flex-col items-center">
         <CardHeader>
-          <Button onClick={handleDelete} className='size-12 self-end hover:text-red-600' variant="ghost"><TrashIcon /></Button>
+          <Button onClick={handleDelete} className="size-12 self-end hover:text-red-600" variant="ghost">
+            <TrashIcon />
+          </Button>
           <CardTitle>{title}</CardTitle>
         </CardHeader>
         <CardContent>

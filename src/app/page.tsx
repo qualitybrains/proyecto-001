@@ -3,9 +3,9 @@ import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { getAllUserTasks } from './api/controllers/tasks';
+import { getUserProfile } from './api/controllers/users';
 import AddTaskModal from './components/addTaskModal';
 import TasksCarousel from './components/tasksCarousel';
-import { getUserProfile } from './api/controllers/users';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
@@ -26,7 +26,7 @@ export default async function Home() {
         </div>
       </section>
       <div className="m-auto mt-10 flex w-full flex-row px-14">
-        <TasksCarousel t={tasks} />
+        <TasksCarousel tasks={tasks} />
       </div>
     </div>
   );

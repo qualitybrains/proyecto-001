@@ -17,7 +17,7 @@ interface Props {
   user: UserProfile | null;
 }
 
-function TopNavBar( { user }: Props ) {
+function TopNavBar({ user }: Props) {
   return (
     <div className="flex h-8 w-full flex-row justify-between bg-slate-50">
       <label className="font-semibold">Entrenador de Hábitos</label>

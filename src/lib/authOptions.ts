@@ -20,7 +20,7 @@ export const authOptions = {
         if (!credentials?.email || !credentials?.password) {
           throw new Error('Please enter an email and password');
         }
-        const user = await db.uSERS.findUnique({
+        const user = await db.users.findUnique({
           where: {
             email: credentials.email,
           },
@@ -35,7 +35,7 @@ export const authOptions = {
         return {
           id: `${user.id}`,
           email: user.email,
-          full_name: user.full_name,
+          fullName: user.fullName,
           password: user.password,
         };
       },

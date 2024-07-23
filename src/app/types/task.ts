@@ -10,7 +10,7 @@ export type Task = {
 export type User = {
   id: number;
   email: string;
-  full_name: string;
+  fullName: string;
   password: string;
   points: number;
 };
