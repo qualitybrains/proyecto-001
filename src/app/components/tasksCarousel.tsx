@@ -11,12 +11,12 @@ interface Props {
 function TasksCarousel({ t }: Props) {
   if (t.length === 0) return <h1 className="text-2xl">Aún no hay tareas. Agrega una para empezar</h1>;
   return (
-    <Carousel>
-      <CarouselContent>
+    <Carousel className='w-full' >
+      <CarouselContent className='w-full gap-2'>
         {t.map(({ task }) => {
           if (!task) return null;
           return (
-            <CarouselItem key={task.id} className="basis-1/2">
+            <CarouselItem key={task.id} className="max-w-fit select-none">
               <TaskCard taskId= {task.id} title={task.name} description={task.description as string} points={task.points} />
             </CarouselItem>
           );
