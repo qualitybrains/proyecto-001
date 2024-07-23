@@ -11,27 +11,27 @@
 
 */
 -- DropForeignKey
-ALTER TABLE "Tasks" DROP CONSTRAINT "Tasks_status_id_fkey";
+ALTER TABLE "Tasks" DROP CONSTRAINT IF EXISTS "Tasks_status_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "user_to_rewards" DROP CONSTRAINT "user_to_rewards_reward_id_fkey";
+ALTER TABLE "user_to_rewards" DROP CONSTRAINT IF EXISTS "user_to_rewards_reward_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "user_to_rewards" DROP CONSTRAINT "user_to_rewards_user_id_fkey";
+ALTER TABLE "user_to_rewards" DROP CONSTRAINT IF EXISTS "user_to_rewards_user_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "user_to_tasks" DROP CONSTRAINT "user_to_tasks_task_id_fkey";
+ALTER TABLE "user_to_tasks" DROP CONSTRAINT IF EXISTS "user_to_tasks_task_id_fkey";
 
 -- DropForeignKey
-ALTER TABLE "user_to_tasks" DROP CONSTRAINT "user_to_tasks_user_id_fkey";
+ALTER TABLE "user_to_tasks" DROP CONSTRAINT IF EXISTS "user_to_tasks_user_id_fkey";
 
 -- DropIndex
-DROP INDEX "Tasks_name_key";
+DROP INDEX IF EXISTS "Tasks_name_key";
 
 -- AlterTable
-ALTER TABLE "Tasks" DROP COLUMN "status_id";
-ALTER TABLE "Tasks" ADD COLUMN     "isPublic" BOOL NOT NULL DEFAULT false;
-ALTER TABLE "Tasks" ADD COLUMN     "userId" INT4 NOT NULL;
+ALTER TABLE "Tasks" DROP COLUMN IF EXISTS "status_id";
+ALTER TABLE "Tasks" ADD COLUMN "isPublic" BOOL NOT NULL DEFAULT false;
+ALTER TABLE "Tasks" ADD COLUMN "userId" INT4 NOT NULL;
 ALTER TABLE "Tasks" ALTER COLUMN "description" SET NOT NULL;
 
 -- DropTable
