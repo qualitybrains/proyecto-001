@@ -1,24 +1,25 @@
 import { db } from '@/lib/db';
+import { Users } from '@prisma/client';
 import bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
+    const { fullName, email, password }: Omit<Users, 'id' | 'created_at' | 'updated_at'> = await request.json();
 
-    const userFound = await db.uSERS.findUnique({
+    const userExist = await db.users.findUnique({
       where: {
-        email: data.email,
+        email: email,
       },
     });
 
-    if (userFound) return NextResponse.json({ error: 'Email already exists' }, { status: 400 });
+    if (userExist) return NextResponse.json({ error: 'Email already exists' }, { status: 400 });
 
-    const hashedPassword = await bcrypt.hash(data.password, 10);
-    const newUser = await db.uSERS.create({
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await db.users.create({
       data: {
-        full_name: data.fullName,
-        email: data.email,
+        fullName: fullName,
+        email: email,
         password: hashedPassword,
       },
     });

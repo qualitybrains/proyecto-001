@@ -3,18 +3,18 @@ import { authOptions } from '@/lib/authOptions';
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { getAllUserTasks } from './api/controllers/tasks';
-import AddTaskModal from './components/addTaskModal';
-import TasksCarousel from './components/tasksCarousel';
 import { getUserProfile } from './api/controllers/users';
+import AddTaskModal from './components/AddTaskModal';
+import TasksCarousel from './components/TasksCarousel';
 
 export default async function Home() {
   const session = await getServerSession(authOptions);
 
-  if (!session) return redirect('/login');
+  if (!session || !session.user?.email) redirect('/login');
 
-  const tasks = (await getAllUserTasks(session.user?.email as string)) ?? [];
+  const user = await getUserProfile(session.user.email as string);
 
-  const user = await getUserProfile(session.user?.email as string);
+  const tasks = user ? await getAllUserTasks({ userId: user.id }) : [];
 
   return (
     <div className="flex min-h-screen max-w-full flex-col items-start px-4">
@@ -26,7 +26,7 @@ export default async function Home() {
         </div>
       </section>
       <div className="m-auto mt-10 flex w-full flex-row px-14">
-        <TasksCarousel t={tasks} />
+        <TasksCarousel tasks={tasks} />
       </div>
     </div>
   );

@@ -13,62 +13,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model USERS {
-  id              Int               @id @default(sequence())
-  email           String            @unique
-  full_name       String?
-  password        String
-  points          Int               @default(0)
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @default(now()) @updatedAt
-  user_to_tasks   user_to_tasks[]
-  user_to_rewards user_to_rewards[]
+model Users {
+  id        Int      @id @default(sequence())
+  email     String   @unique
+  fullName  String?
+  password  String
+  tasks     Tasks[]
+  points    Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 }
 
 model Tasks {
-  id            Int             @id @default(sequence())
-  name          String          @unique
-  description   String?
-  points        Int
-  user_to_tasks user_to_tasks[]
-  status        Task_Status?    @relation(fields: [status_id], references: [id], onDelete: Cascade)
-  status_id     Int
+  id          Int     @id @default(sequence())
+  name        String
+  description String
+  points      Int
+  isPublic    Boolean @default(false)
+  userId      Int
+  user        Users   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Rewards {
-  id              Int               @id @default(sequence())
-  name            String            @unique
-  description     String?
-  cost            Int
-  user_to_rewards user_to_rewards[]
+  id          Int     @id @default(sequence())
+  name        String  @unique
+  description String?
+  cost        Int
 }
 
 model Achievements {
   id          Int     @id @default(sequence())
   name        String  @unique
   description String?
-}
-
-model Task_Status {
-  id     Int     @id @default(sequence())
-  status String
-  tasks  Tasks[]
-}
-
-model user_to_tasks {
-  user    USERS? @relation(fields: [user_id], references: [id])
-  user_id Int
-  task    Tasks? @relation(fields: [task_id], references: [id])
-  task_id Int
-
-  @@id([user_id, task_id])
-}
-
-model user_to_rewards {
-  user      USERS?   @relation(fields: [user_id], references: [id])
-  user_id   Int
-  reward    Rewards? @relation(fields: [reward_id], references: [id])
-  reward_id Int
-
-  @@id([user_id, reward_id])
 }

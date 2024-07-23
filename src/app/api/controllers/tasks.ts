@@ -1,17 +1,10 @@
-import { taskFormSchema } from '@/app/types/task';
-import { db } from '@/lib/db';
-import { z } from 'zod';
+'use server';
 
-export const getAllUserTasks = async (userEmail: string) => {
-  const user = await db.uSERS.findUnique({
-    where: {
-      email: userEmail,
-    },
-  });
-  if (!user) {
-    return null;
-  }
-  const userTasks = await db.user_to_tasks.findMany({ select: { task: true }, where: { user_id: user.id } });
+import { db } from '@/lib/db';
+import { Tasks } from '@prisma/client';
+
+export const getAllUserTasks = async ({ userId }: { userId: number }) => {
+  const userTasks = await db.tasks.findMany({ where: { userId } });
   return userTasks;
 };
 
@@ -24,47 +17,23 @@ export const getTaskById = async (id: string) => {
   return task;
 };
 
-export const createTask = async (userEmail: string, data: z.infer<typeof taskFormSchema>) => {
+export const createTask = async ({ task }: { task: Omit<Tasks, 'id'> }) => {
   const newTask = await db.tasks.create({
     data: {
-      name: data.name,
-      description: data.description,
-      points: Number(data.points),
-      status_id: 1,
+      name: task.name,
+      description: task.description,
+      points: Number(task.points),
+      userId: task.userId,
     },
   });
-  const user = await db.uSERS.findUnique({
-    where: {
-      email: userEmail,
-    },
-  });
-
-  if (!user) {
-    return null;
-  }
-
-  const newUserToTask = await db.user_to_tasks.create({
-    data: {
-      user_id: user.id,
-      task_id: newTask.id,
-    },
-  });
-  return newUserToTask;
+  return newTask;
 };
 
-export const deleteTask = async (taskId: number) => {
-  const task = await db.tasks.update({
-      where: {
-          id: taskId
-      },
-      data: {
-          user_to_tasks: {
-              deleteMany: {}
-          }
-      },
-      include: {
-          user_to_tasks: true
-      }
-  })
-  return task
+export const deleteTask = async ({ taskId }: { taskId: number }) => {
+  const task = await db.tasks.delete({
+    where: {
+      id: taskId,
+    },
+  });
+  return task;
 };
