@@ -16,7 +16,7 @@ function AddTaskForm({ onOpenChange }: Props) {
   const router = useRouter();
   const form = useForm<z.infer<typeof taskFormSchema>>({
     resolver: zodResolver(taskFormSchema),
-    defaultValues: { name: '', description: '', points: '50', status: 1 },
+    defaultValues: { name: '', description: '', points: 50, status: 1 },
   });
   const submitHandler = async (values: z.infer<typeof taskFormSchema>) => {
     const response = await fetch('/api/tasks', {
@@ -26,7 +26,9 @@ function AddTaskForm({ onOpenChange }: Props) {
       },
       body: JSON.stringify(values),
     });
+    response &&
     clientRevalidatePath('/');
+    router.push('/');
     onOpenChange(false);
   };
 
