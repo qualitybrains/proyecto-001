@@ -17,6 +17,46 @@ export const getTaskById = async (id: string) => {
   return task;
 };
 
+export const completeTask = async ({ taskId }: { taskId: number }) => {
+  const user = await db.users.findUnique({
+    where: {
+      id: 1
+    }
+  })
+
+  const task_points = await db.tasks.findUnique({
+    where: {
+      id: taskId
+    },
+    select: {
+      points: true
+    }
+  })
+  
+  const task = await db.tasks.update({
+    where: {
+      id: taskId,
+    },
+    // TODO: Add actual completion logic
+    data: {
+      description: "Task completed",
+    },
+  });
+
+  if(user && task && user.points && task_points?.points)
+  {
+    await db.users.update({
+      where: {
+        id: user.id
+      },
+      data: {
+        points: user.points + task_points.points
+      }
+    })
+  }
+  return task;
+}
+
 export const createTask = async ({ task }: { task: Omit<Tasks, 'id'> }) => {
   const newTask = await db.tasks.create({
     data: {
