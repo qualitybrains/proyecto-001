@@ -47,10 +47,12 @@ function TaskCard({ taskId, title, description, status, points }: TaskCardProps)
           <Button onClick={handleDelete} className="size-12 self-end hover:text-red-600" variant="ghost">
             <TrashIcon />
           </Button>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className='overflow-hidden'><div className="w-[200px] overflow-hidden">{title}</div></CardTitle>
         </CardHeader>
-        <CardContent>
-          <label>{description}</label>
+        <CardContent className='overflow-hidden'>
+          <div className="h-12 w-[200px] text-sm">
+            {description}
+          </div>
         </CardContent>
         <CardFooter>
           <h1 className="text-3xl font-bold">{points} pts.</h1>
